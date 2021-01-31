@@ -2,7 +2,7 @@ apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
-group='com.download.library'
+
 android {
     compileSdkVersion COMPILE_SDK_VERSION.toInteger()
     buildToolsVersion BUILD_TOOL_VERSION
@@ -12,17 +12,22 @@ android {
         targetSdkVersion TARGET_SDK_VERSION.toInteger()
         versionCode 2
         versionName "4.1.4"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "VERSION_NAME", '"1.0.0"'
+        }
+        debug {
+            buildConfigField "String", "VERSION_NAME", '"1.0.0"'
+            minifyEnabled false
         }
     }
-    lintOptions{
+    lintOptions {
         abortOnError false
     }
     repositories {
@@ -35,12 +40,12 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'junit:junit:4.12'
-    compileOnly "com.android.support:design:${SUPPORT_LIB_VERSION}"
-    compileOnly "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+    compileOnly 'com.google.android.material:material:1.0.0'
+    compileOnly 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.Justson:dispatch-queue:v1.0.5'
 }
 //task javadoc(type: Javadoc) {
@@ -48,14 +53,11 @@ dependencies {
 //}
 
 publish {
-    def groupProjectID = 'com.download.library'
-    def artifactProjectID = 'Downloader'
-    def publishVersionID = '4.1.4'
-    userOrg = 'just'
-    groupId = groupProjectID
-    artifactId = artifactProjectID
-    publishVersion = publishVersionID
+    userOrg = 'angelwangjing'
+    groupId = 'com.wandroid'
+    artifactId = 'downloader-androidx'
+    publishVersion = '1.0.0'
     desc = 'Downloader is a lightweight powerful Android file download library'
-    website = 'https://github.com/Justson/Downloader'
+    website = 'https://github.com/wangjing53406/Downloader'
 
 }
